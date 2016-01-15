@@ -6,6 +6,10 @@ var COMMAND_MAP = {
 	'halt' : 'halt.png'
 };
 
+var NOT_FOUND = 'command not found...';
+var RUNNING = 'is now running...';
+var HALTED = 'is halted...'
+
 $(document).ready(function(){
 	var _o = $('textarea');
 	var enterKeyCode = 13;
@@ -17,9 +21,15 @@ $(document).ready(function(){
 	});
 });
 
+var i=1;
+
 function _command(command) {
 	if(validateCommand(command)){
-		
+		if(COMMAND_MAP[command]){
+			$('#status'+i).append('<div id="status' + Number(i+1) + '">' + command.toUpperCase() + '  ' + RUNNING + '</div>')
+		i++;
+		}
+		$('#status').html();
 	}
 }
 
