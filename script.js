@@ -24,7 +24,7 @@ $(document).ready(function(){
     _o.keypress(function(event){
         var _keycode = (event.keyCode ? event.keyCode : event.which);
         if(_keycode == enterKeyCode){
-            command = setCommand(_o.val()).toLowerCase();
+            command = setCommand(_o.val()).toLowerCase().trim();
             _cmdIsRunning = $('#cmdIsRunning').val();
             if(validateCommand(command) == IS_COMMAND && command != _cmdIsRunning){
                 if(_cmdIsRunning != '' ) {
