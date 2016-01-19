@@ -7,6 +7,8 @@ var COMMAND_ARRAY = {
     'halt' : 'image/halt.png'
 };
 
+var LAST_COMMAND = [];
+
 //config command title
 var NOT_FOUND = 'command not found.';
 var RUNNING = 'is now running.';
@@ -19,8 +21,10 @@ var COMMAND_NULL = 3;
 $(document).ready(function(){
     var _o = $('textarea');
     var enterKeyCode = 13;
+    var pageUpKeyCode = 38;
     var i=1;
     var status = 1;
+    var _countPageUp = 1;
     _o.keypress(function(event){
         var _keycode = (event.keyCode ? event.keyCode : event.which);
         if(_keycode == enterKeyCode){
@@ -53,6 +57,21 @@ $(document).ready(function(){
             i++;
         }
     });
+    _o.keyup(function(event){
+        var _keycode = (event.keyCode ? event.keyCode : event.which);
+        console.log(_keycode);
+        if (_keycode == pageUpKeyCode) {
+            console.log('aaa');
+            console.log(LAST_COMMAND);
+            var nowCommand = _o.val();
+            var _lengthArr = LAST_COMMAND.length;
+            var _lastCommand = '\n' + LAST_COMMAND[_lengthArr - _countPageUp];
+            if(LAST_COMMAND[_lengthArr - _countPageUp]) {
+                _o.val(nowCommand + _lastCommand);
+            }
+            _countPageUp++;
+        }
+    });
 
     $('#reset').click(function(){
         _o.val('');
@@ -60,7 +79,6 @@ $(document).ready(function(){
         $('#cmdIsRunning').val('');
         $('#show-image img').removeAttr('src');
     });
-
 });
 
 function setImage(){
@@ -82,6 +100,7 @@ function setStatusCommnad(command,status){
     		});
     	}
         $('#status').append('<div class="CMDRUNNING ' + _class + '">' + command.toUpperCase() + ' ' + status + '</div>');
+        LAST_COMMAND.push(command);
     }
 }
     
