@@ -52,26 +52,40 @@ $(document).ready(function(){
             if (validateCommand(command) == COMMAND_NULL) {
                 status = COMMAND_NULL;
             }
-
+            LAST_COMMAND.push(command);
             setStatusCommnad(command,status);
             i++;
         }
     });
+    var _lastCommand = ''; 
     _o.keyup(function(event){
         var _keycode = (event.keyCode ? event.keyCode : event.which);
         console.log(_keycode);
         if (_keycode == pageUpKeyCode) {
-            console.log('aaa');
+            console.log('up');
             console.log(LAST_COMMAND);
             var nowCommand = _o.val();
             var _lengthArr = LAST_COMMAND.length;
-            var _lastCommand = '\n' + LAST_COMMAND[_lengthArr - _countPageUp];
-            if(LAST_COMMAND[_lengthArr - _countPageUp]) {
-                _o.val(nowCommand + _lastCommand);
-            }
+            var _lastCommand = LAST_COMMAND[_lengthArr - _countPageUp];
             _countPageUp++;
+            if(_lastCommand && _lastCommand != '') {
+                _o.val(nowCommand + '\n' + _lastCommand);
+            }
+        }
+        if (_keycode == pageUpKeyCode) {
+            
+            console.log('down');
+            console.log(LAST_COMMAND);
+            var nowCommand = _o.val();
+            var _lengthArr = LAST_COMMAND.length;
+            var _lastCommand = LAST_COMMAND[_lengthArr - _countPageUp];
+            _countPageUp--;
+            if(_lastCommand && _lastCommand != '') {
+                _o.val(nowCommand + '\n' + _lastCommand);
+            }
         }
     });
+
 
     $('#reset').click(function(){
         _o.val('');
@@ -100,7 +114,6 @@ function setStatusCommnad(command,status){
     		});
     	}
         $('#status').append('<div class="CMDRUNNING ' + _class + '">' + command.toUpperCase() + ' ' + status + '</div>');
-        LAST_COMMAND.push(command);
     }
 }
     
